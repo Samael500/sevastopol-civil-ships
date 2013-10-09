@@ -1,4 +1,4 @@
-class MN:
+﻿class MN:
     STOP = 0.55 #minimal cignificant speed khot
 
     LASTPOSLEN = 10 #length of lastpos
@@ -14,3 +14,5 @@ class MN:
     DELTA = 0.0015 #distans to determinate next pier
 
     DEADEND = 0.0090 #distans to deadend place
+
+    UNKNOWN = "Неизвестности" #if pier is None

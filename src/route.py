@@ -68,16 +68,15 @@ class Route:
                 return self.piers[self.next(ship.lastpierindex)]
             elif ((self.piers[ship.lastpierindex].mark - ship.coordinates).length() < MN.DELTA):
                 return self.piers[self.next(ship.lastpierindex)]
-            elif ship.viewangle(self.piers[self.prev(ship.lastpierindex)].mark):
-                return self.piers[ self.prev(ship.lastpierindex) ]
+            #elif ship.viewangle(self.piers[self.prev(ship.lastpierindex)].mark):
+            #    return self.piers[ self.prev(ship.lastpierindex) ]
             else:
-
                 if (ship.collinear(self.piers[self.next(ship.lastpierindex)].mark)):
                     ship.lastpierindex = self.next(ship.lastpierindex)
                     return self.destination(ship)
-                elif (ship.collinear(self.piers[self.prev(ship.lastpierindex)].mark)):
-                    ship.lastpierindex = self.prev(ship.lastpierindex)
-                    return self.destination(ship)
+                #elif (ship.collinear(self.piers[self.prev(ship.lastpierindex)].mark)):
+                #    ship.lastpierindex = self.prev(ship.lastpierindex)
+                #    return self.destination(ship)
                 #return self.piers[(ship.lastpierindex + 1) % len(self.piers)]
 
 

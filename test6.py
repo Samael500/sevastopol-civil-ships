@@ -161,5 +161,7 @@ while True:
 		whatroute()
 		sendmsg()
 		sleep()
+	except(KeyboardInterrupt):
+		sys.exit()
 	except:
 		print "Error:", sys.exc_info()[0]

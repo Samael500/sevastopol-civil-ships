@@ -20,7 +20,7 @@ class Ship:
 
         self.coordinates = coordinates
         self.speed = speed
-        self.status = ship_status.OFFLINE
+        self.status = None#ship_status.OFFLINE
         
         self.lastpos = []
         self.lastpierindex = None
@@ -149,7 +149,7 @@ class Ship:
         return (self.coordinates - point).length()
 
     def deadend(self, zone):
-        if self.status == ship_status.OFFLINE:
+        if self.status == ship_status.OFFLINE or not(self.status):
             return False
 
         if (zone.area.is_inside(self.coordinates)):

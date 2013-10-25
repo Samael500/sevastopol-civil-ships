@@ -19,5 +19,9 @@ class Twitter:
         '''
         Writes message into console to test.
         '''
-        #print message
-        self.post_tweet(message)
+        try:
+            #print message
+            self.post_tweet(message)
+        except Exception as e:
+            print "Error:", e.message
+            print "Error message:", message

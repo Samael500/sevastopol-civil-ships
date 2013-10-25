@@ -14,7 +14,7 @@ class Ship:
         # TODO: Add last_update time
         if isinstance(name, list):
             self.name = name[0]
-            self.nick = unicode(name[1], "UTF-8")[:-1] # \n Kill
+            self.nick = unicode(name[1], "UTF-8")
         else:
             self.name = self.nick = name
 
@@ -28,6 +28,7 @@ class Ship:
 
         self.alive = False
         self.printedpos = None
+        self.printedspeed = None
 
     def reset(self):
         #self.coordinates = None
@@ -43,12 +44,14 @@ class Ship:
     def msg(self):
         res = message.PASS
         #print self
-        if self.alive and (self.status == ship_status.ONLINE) :
-            self.printedpos = self.coordinates
-            if (self.speed < MN.STOP):
-                res = message.STAND
-            else :
-                res = message.UNDERWAY
+        if (self.status == ship_status.ONLINE):
+            if self.alive:
+                self.printedpos = self.coordinates
+                self.printedspeed = self.speed
+                if (self.speed < MN.STOP):
+                    res = message.STAND
+                else :
+                    res = message.UNDERWAY
 
         return message.reverse_mapping[res]
 
@@ -64,10 +67,13 @@ class Ship:
         B = self.status
         #bCoord = self.coordinates
 
-        if self.printedpos and self.coordinates:
+        if (self.printedpos) and (self.coordinates):
             self.alive = ((self.printedpos - self.coordinates).length() > MN.DELTA)
         else:
-            self.alive = ((not self.printedpos) and (self.coordinates))
+            self.alive = (bool)(self.coordinates) #((not self.printedpos) and (self.coordinates))
+
+        if (self.printedspeed > MN.STOP) and (self.speed < MN.STOP) :
+            self.alive = True
 
         #if aCoord and bCoord:
         #    print self.name, aCoord, bCoord, self.alive
@@ -88,7 +94,7 @@ class Ship:
             if (B == ship_status.ONLINE) :
                 res = message.HELLO
             elif (B == ship_status.OFFLINE) :
-                res = message.GOODBYE
+                res = message.PASS#GOODBYE
             elif (B == ship_status.INDEADEND) :
                 res = message.PASS
 
@@ -109,7 +115,7 @@ class Ship:
             self.status = ship_status.ONLINE
         else:
             self.reset()
-            status = ship_status.OFFLINE
+            self.status = ship_status.OFFLINE
 
     def update_from_ais(self):
         scrapper = Scrapper()
@@ -118,13 +124,16 @@ class Ship:
 
     def __str__(self):
         if self.status == ship_status.ONLINE:
-            res = "name: {0}; speed: {1}; course: {2}; coordinates: {3}; route: {4};".format(self.name, self.speed, self.course, self.coordinates, self.route)
+            res = "name: {0}; route: {1};".format(self.name, self.route)
+            #res = "name: {0}; speed: {1}; course: {2}; coordinates: {3}; route: {4};".format(self.name, self.speed, self.course, self.coordinates, self.route)
         else:
             res = "name: {0}; ais status: {1}".format(self.name, self.ais_status())
         return res
 
 
     def ais_status(self):
+        if not self.status:
+            return "PASS"
         return ship_status.reverse_mapping[self.status]
 
     def angle (self, point):
@@ -149,11 +158,11 @@ class Ship:
         return (self.coordinates - point).length()
 
     def deadend(self, zone):
-        if self.status == ship_status.OFFLINE or not(self.status):
+        if (self.status == ship_status.OFFLINE) or (self.status == None):
             return False
 
         if (zone.area.is_inside(self.coordinates)):
-            if (self.speed < MN.STOP) or (self.length(zone.mark) < MN.DEADEND) (self.viewangle(zone.mark)):
+            if (self.speed < MN.STOP) or (self.length(zone.mark) < MN.DEADEND) or (self.viewangle(zone.mark)):
                 self.status = ship_status.INDEADEND
                 self.reset()
                 return True

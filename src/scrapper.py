@@ -41,8 +41,8 @@ class Scrapper:
         data = []
         res = {}
         
-        for name in ship_names:
-            res[name] = None
+        #for name in ship_names:
+        #    res[name] = None
 
         try:
             soup = BeautifulSoup(urllib2.urlopen(url).read())

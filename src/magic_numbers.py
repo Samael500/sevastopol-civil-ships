@@ -11,8 +11,12 @@
 
     DELAY = 60 #time to sleep
 
-    DELTA = 0.0015 #distans to determinate next pier
+    DELTA = 0.0025 #distans to determinate next pier
 
     DEADEND = 0.0090 #distans to deadend place
 
-    UNKNOWN = "Неизвестности" #if pier is None
+    UNKNOWN = "UNKNOWN" #unicode("Неизвестности", "UTF-8") #if pier is None
+
+    STAT = 1 #statistic hour delay
+
+    STAT2 = 15 #statistic minute start

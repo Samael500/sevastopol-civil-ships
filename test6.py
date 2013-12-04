@@ -90,6 +90,8 @@ def upd(count = 1) :
                     if (msg == "GOODBYE") :
                         caters[cater.name] = True
                         departed += 1
+        else:
+            print "Data Error"
 
 #=============================================================
 
@@ -132,11 +134,12 @@ def sendmsg():
 
     for i in range(size):
         cater = Caters[index[i]]
+        #print cater
 
         if (cater.status != ship_status.ONLINE) :
             continue
 
-        print cater
+        #print cater
         #for key in Piers:
         #    print key, Piers[key]
                 
@@ -147,9 +150,10 @@ def sendmsg():
                 pier = route.destination(cater)
                 if (pier != None):
                     pier = pier.name
+                    iteration = MN.ITERATION
+                    while Tweet.post(Xml.getmsg(msg).format(cater.nick, Piers[pier], route.name)) and (iteration > 0): iteration -= 1
                 else:
-                    pier = MN.UNKNOWN
-                Tweet.post(Xml.getmsg(msg).format(cater.nick, Piers[pier], route.name))
+                    print "pier unknow", cater#pier = MN.UNKNOWN
 
             if (msg == "UNDERWAY") :
                 caters[cater.name] = True
@@ -245,7 +249,7 @@ routes, DeadEnd, caters, Caters, Piers = start()
 stat = time.localtime().tm_hour# - 1
 arrived = departed = 0
 #sendmsg()
-
+#raw_input()
 while True:
     try:
         print strftime("%a, %d %b %Y %H:%M:%S", time.localtime())

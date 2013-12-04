@@ -70,26 +70,28 @@ class Route:
                 return self.piers[self.next(ship.lastpierindex)]
             #elif ship.viewangle(self.piers[self.prev(ship.lastpierindex)].mark):
             #    return self.piers[ self.prev(ship.lastpierindex) ]
-            else:
-                if (ship.collinear(self.piers[self.next(ship.lastpierindex)].mark)):
-                    ship.lastpierindex = self.next(ship.lastpierindex)
-                    return self.destination(ship)
+            #else:
+            #    if (ship.collinear(self.piers[self.next(ship.lastpierindex)].mark)):
+            #        ship.lastpierindex = self.next(ship.lastpierindex)
+            #        return self.destination(ship)
                 #elif (ship.collinear(self.piers[self.prev(ship.lastpierindex)].mark)):
                 #    ship.lastpierindex = self.prev(ship.lastpierindex)
                 #    return self.destination(ship)
                 #return self.piers[(ship.lastpierindex + 1) % len(self.piers)]
 
 
-        dest = MN.MAX
+        dest = ang = MN.MAX
         res = None#self.piers[0]#
 
         for pier in self.piers:
             foo = ship.angle(pier.mark)
-            #print foo, pier
-            if ship.viewangle(pier.mark) :
-                foo = ship.length(pier.mark)
-                if (foo < dest):
-                    dest = foo
+            #print foo#, pier
+            if foo < ang : #ship.viewangle(pier.mark) :
+                #boo = ship.length(pier.mark)
+                if (foo < ang):
+                #if (boo < dest):
+                    #dest = foo
+                    ang = foo
                     res = pier
 
         return res

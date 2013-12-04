@@ -7,7 +7,7 @@
 
     MAX = 100500 #some very large number
     
-    VIEWANGLE = 60 #angle at which it is considered that the boat went to target
+    VIEWANGLE = 80 #angle at which it is considered that the boat went to target
 
     DELAY = 60 #time to sleep
 
@@ -20,3 +20,5 @@
     STAT = 1 #statistic hour delay
 
     STAT2 = 15 #statistic minute start
+
+    ITERATION = 10 #number of new massages try
